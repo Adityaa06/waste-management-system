@@ -1,0 +1,16 @@
+{
+    "name": "EcoSmart Waste Management",
+    "short_name": "EcoSmart",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#05070a",
+    "theme_color": "#10b981",
+    "icons": [
+        {
+            "src": "https://cdn-icons-png.flaticon.com/512/3299/3299935.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
