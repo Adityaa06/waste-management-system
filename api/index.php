@@ -2,12 +2,13 @@
 
 define('LARAVEL_START', microtime(true));
 
-// Create required writable directories in /tmp for serverless runtime
+// ─── 1. Create all writable directories in /tmp ──────────────────────────────
 $dirs = [
     '/tmp/storage/framework/views',
-    '/tmp/storage/framework/cache',
+    '/tmp/storage/framework/cache/data',
     '/tmp/storage/framework/sessions',
-    '/tmp/storage/bootstrap/cache',
+    '/tmp/storage/logs',
+    '/tmp/bootstrap/cache',
 ];
 
 foreach ($dirs as $dir) {
@@ -16,7 +17,17 @@ foreach ($dirs as $dir) {
     }
 }
 
-// Set SQLite path in /tmp if using sqlite
+// ─── 2. Copy bootstrap/cache PHP files to /tmp (read-only FS workaround) ─────
+$srcCache = __DIR__ . '/../bootstrap/cache';
+$dstCache = '/tmp/bootstrap/cache';
+foreach (glob($srcCache . '/*.php') as $file) {
+    $dest = $dstCache . '/' . basename($file);
+    if (!file_exists($dest)) {
+        copy($file, $dest);
+    }
+}
+
+// ─── 3. Set SQLite database path in /tmp ─────────────────────────────────────
 $dbCreated = false;
 if (getenv('DB_CONNECTION') === 'sqlite') {
     $dbPath = '/tmp/database.sqlite';
@@ -26,23 +37,29 @@ if (getenv('DB_CONNECTION') === 'sqlite') {
     }
     putenv("DB_DATABASE={$dbPath}");
     $_ENV['DB_DATABASE'] = $dbPath;
+    $_SERVER['DB_DATABASE'] = $dbPath;
 }
 
-// Register the Composer autoloader...
+// ─── 4. Register the Composer autoloader ─────────────────────────────────────
 require __DIR__ . '/../vendor/autoload.php';
 
-// Bootstrap Laravel
-/** @var Illuminate\Foundation\Application $app */
+// ─── 5. Bootstrap Laravel ────────────────────────────────────────────────────
+/** @var \Illuminate\Foundation\Application $app */
 $app = require_once __DIR__ . '/../bootstrap/app.php';
 
+// Override bootstrap & storage paths to writable /tmp locations
+$app->useBootstrapPath('/tmp/bootstrap');
+$app->useStoragePath('/tmp/storage');
+
+// ─── 6. Run migrations on first cold-start (SQLite) ──────────────────────────
 if ($dbCreated) {
-    // Run migrations programmatically
     try {
-        Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
     } catch (\Throwable $e) {
-        // Silence or log error
+        // Log silently; don't crash the request
+        error_log('Migration error: ' . $e->getMessage());
     }
 }
 
-// Handle the request...
-$app->handleRequest(Illuminate\Http\Request::capture());
+// ─── 7. Handle the incoming HTTP request ─────────────────────────────────────
+$app->handleRequest(\Illuminate\Http\Request::capture());
