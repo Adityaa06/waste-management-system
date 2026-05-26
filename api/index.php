@@ -1,5 +1,7 @@
 <?php
 
+define('LARAVEL_START', microtime(true));
+
 // Create required writable directories in /tmp for serverless runtime
 $dirs = [
     '/tmp/storage/framework/views',
@@ -26,10 +28,21 @@ if (getenv('DB_CONNECTION') === 'sqlite') {
     $_ENV['DB_DATABASE'] = $dbPath;
 }
 
+// Register the Composer autoloader...
+require __DIR__ . '/../vendor/autoload.php';
+
+// Bootstrap Laravel
+/** @var Illuminate\Foundation\Application $app */
+$app = require_once __DIR__ . '/../bootstrap/app.php';
+
 if ($dbCreated) {
-    // Run migrations automatically
-    shell_exec('php ' . __DIR__ . '/../artisan migrate --force');
+    // Run migrations programmatically
+    try {
+        Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    } catch (\Throwable $e) {
+        // Silence or log error
+    }
 }
 
-// Forward Vercel requests to normal index.php
-require __DIR__ . '/../public/index.php';
+// Handle the request...
+$app->handleRequest(Illuminate\Http\Request::capture());
