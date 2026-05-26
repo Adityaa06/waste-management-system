@@ -16,27 +16,33 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Admin
-        \App\Models\User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'role' => 'admin',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-        ]);
+        \App\Models\User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Admin User',
+                'role' => 'admin',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            ]
+        );
 
         // Worker
-        \App\Models\User::factory()->create([
-            'name' => 'Worker User',
-            'email' => 'worker@example.com',
-            'role' => 'worker',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-        ]);
+        \App\Models\User::firstOrCreate(
+            ['email' => 'worker@example.com'],
+            [
+                'name' => 'Worker User',
+                'role' => 'worker',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            ]
+        );
 
         // Regular User
-        \App\Models\User::factory()->create([
-            'name' => 'Regular User',
-            'email' => 'user@example.com',
-            'role' => 'user',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-        ]);
+        \App\Models\User::firstOrCreate(
+            ['email' => 'user@example.com'],
+            [
+                'name' => 'Regular User',
+                'role' => 'user',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            ]
+        );
     }
 }

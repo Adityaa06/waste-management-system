@@ -3,8 +3,8 @@ services:
     name: waste-management-system
     env: php
     plan: free
-    buildCommand: "composer install --no-dev --optimize-autoloader && npm install && npm run build"
-    startCommand: "php artisan serve --host=0.0.0.0 --port=$PORT"
+    buildCommand: "composer install && npm install && npm run build"
+    startCommand: "php artisan serve --host=0.0.0.0 --port=10000"
     envVars:
       - key: APP_ENV
         value: production
@@ -14,3 +14,11 @@ services:
         generateValue: true
       - key: LOG_CHANNEL
         value: stderr
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: SESSION_DRIVER
+        value: cookie
+      - key: CACHE_STORE
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync

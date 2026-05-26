@@ -51,13 +51,14 @@ $app = require_once __DIR__ . '/../bootstrap/app.php';
 $app->useBootstrapPath('/tmp/bootstrap');
 $app->useStoragePath('/tmp/storage');
 
-// ─── 6. Run migrations on first cold-start (SQLite) ──────────────────────────
+// ─── 6. Run migrations & seeders on first cold-start (SQLite) ────────────────
 if ($dbCreated) {
     try {
         \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
     } catch (\Throwable $e) {
         // Log silently; don't crash the request
-        error_log('Migration error: ' . $e->getMessage());
+        error_log('Migration/Seed error: ' . $e->getMessage());
     }
 }
 
