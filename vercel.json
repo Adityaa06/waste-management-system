@@ -22,10 +22,13 @@
     ],
     "env": {
         "APP_ENV": "production",
-        "APP_DEBUG": "false",
+        "APP_DEBUG": "true",
+        "APP_KEY": "base64:7r6lYnd3DhP+0kKp/oMOont1JY2sFgHqkRKMahn96OU=",
+        "DB_CONNECTION": "sqlite",
         "LOG_CHANNEL": "stderr",
         "CACHE_STORE": "array",
         "SESSION_DRIVER": "cookie",
-        "QUEUE_CONNECTION": "sync"
+        "QUEUE_CONNECTION": "sync",
+        "VIEW_COMPILED_PATH": "/tmp/storage/framework/views"
     }
 }
