@@ -32,8 +32,15 @@ $dbCreated = false;
 if (getenv('DB_CONNECTION') === 'sqlite') {
     $dbPath = '/tmp/database.sqlite';
     if (!file_exists($dbPath) || filesize($dbPath) === 0) {
-        touch($dbPath);
-        $dbCreated = true;
+        $sourceDb = __DIR__ . '/../database/database.sqlite';
+        if (file_exists($sourceDb) && filesize($sourceDb) > 0) {
+            copy($sourceDb, $dbPath);
+            @chmod($dbPath, 0666);
+        } else {
+            touch($dbPath);
+            @chmod($dbPath, 0666);
+            $dbCreated = true;
+        }
     }
     putenv("DB_DATABASE={$dbPath}");
     $_ENV['DB_DATABASE'] = $dbPath;
