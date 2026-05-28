@@ -4,23 +4,23 @@
 @section('header', 'My Dashboard')
 
 @section('sidebar')
-        <a href="{{ route('user.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary border border-primary/20">
-            <i class="fas fa-th-large"></i>
-            <span class="font-medium">Dashboard</span>
-        </a>
-        <a href="{{ route('user.requests.create') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-gray-400 hover:text-white">
-            <i class="fas fa-plus-circle"></i>
-            <span class="font-medium">Create Request</span>
-        </a>
-        <a href="{{ route('user.requests.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-gray-400 hover:text-white">
-            <i class="fas fa-history"></i>
-            <span class="font-medium">My Requests</span>
-        </a>
-        <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-gray-400 hover:text-white">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span class="font-medium">Complaints</span>
-        </a>
-    @endsection
+    <a href="{{ route('user.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary border border-primary/20">
+        <i class="fas fa-th-large"></i>
+        <span class="font-medium">Dashboard</span>
+    </a>
+    <a href="{{ route('user.requests.create') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-gray-400 hover:text-white">
+        <i class="fas fa-plus-circle"></i>
+        <span class="font-medium">Create Request</span>
+    </a>
+    <a href="{{ route('user.requests.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-gray-400 hover:text-white">
+        <i class="fas fa-history"></i>
+        <span class="font-medium">My Requests</span>
+    </a>
+    <a href="{{ route('user.complaints.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-gray-400 hover:text-white">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span class="font-medium">Complaints</span>
+    </a>
+@endsection
 
 @section('content')
     <!-- Stats Grid -->
@@ -30,7 +30,7 @@
                 <i class="fas fa-list-check text-xl"></i>
             </div>
             <p class="text-gray-500 text-sm font-medium">My Total Requests</p>
-            <h3 class="text-3xl font-bold">12</h3>
+            <h3 class="text-3xl font-bold">{{ $totalRequests }}</h3>
         </div>
 
         <div class="glass p-6 rounded-3xl border border-white/5 hover:border-secondary/30 transition-all group">
@@ -38,7 +38,7 @@
                 <i class="fas fa-spinner text-xl"></i>
             </div>
             <p class="text-gray-500 text-sm font-medium">In Progress</p>
-            <h3 class="text-3xl font-bold">2</h3>
+            <h3 class="text-3xl font-bold">{{ $inProgressRequests }}</h3>
         </div>
 
         <div class="glass p-6 rounded-3xl border border-white/5 hover:border-green-500/30 transition-all group">
@@ -46,7 +46,7 @@
                 <i class="fas fa-circle-check text-xl"></i>
             </div>
             <p class="text-gray-500 text-sm font-medium">Completed</p>
-            <h3 class="text-3xl font-bold">10</h3>
+            <h3 class="text-3xl font-bold">{{ $completedRequests }}</h3>
         </div>
     </div>
 
@@ -60,8 +60,7 @@
                 <h3 class="text-2xl font-bold mb-2">Need a Waste Pickup?</h3>
                 <p class="text-gray-400">Request a collection in just a few clicks. Our worker will be at your location shortly.</p>
             </div>
-            <button class="btn-primary whitespace-nowrap">Create New Request</button>
+            <a href="{{ route('user.requests.create') }}" class="btn-primary whitespace-nowrap flex items-center justify-center">Create New Request</a>
         </div>
-    </div>
     </div>
 @endsection

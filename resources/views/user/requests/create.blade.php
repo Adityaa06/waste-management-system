@@ -16,6 +16,10 @@
             <i class="fas fa-history"></i>
             <span class="font-medium">My Requests</span>
         </a>
+        <a href="{{ route('user.complaints.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-gray-400 hover:text-white">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span class="font-medium">Complaints</span>
+        </a>
     @endsection
 
 @section('content')
@@ -172,6 +176,5 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-    </script>
     </script>
 @endsection

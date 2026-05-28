@@ -37,7 +37,7 @@
                 <span class="text-green-500 text-xs font-bold">+12%</span>
             </div>
             <p class="text-gray-500 text-sm font-medium">Total Users</p>
-            <h3 class="text-3xl font-bold">1,284</h3>
+            <h3 class="text-3xl font-bold">{{ number_format($totalUsers) }}</h3>
         </div>
 
         <div class="glass p-6 rounded-3xl border border-white/5 hover:border-secondary/30 transition-all group">
@@ -48,7 +48,7 @@
                 <span class="text-green-500 text-xs font-bold">+5%</span>
             </div>
             <p class="text-gray-500 text-sm font-medium">Total Requests</p>
-            <h3 class="text-3xl font-bold">452</h3>
+            <h3 class="text-3xl font-bold">{{ number_format($totalRequests) }}</h3>
         </div>
 
         <div class="glass p-6 rounded-3xl border border-white/5 hover:border-yellow-500/30 transition-all group">
@@ -59,7 +59,7 @@
                 <span class="text-red-500 text-xs font-bold">Pending</span>
             </div>
             <p class="text-gray-500 text-sm font-medium">Pending Requests</p>
-            <h3 class="text-3xl font-bold">28</h3>
+            <h3 class="text-3xl font-bold">{{ number_format($pendingRequests) }}</h3>
         </div>
 
         <div class="glass p-6 rounded-3xl border border-white/5 hover:border-accent/30 transition-all group">
@@ -70,7 +70,7 @@
                 <span class="text-green-500 text-xs font-bold">Completed</span>
             </div>
             <p class="text-gray-500 text-sm font-medium">Completed Tasks</p>
-            <h3 class="text-3xl font-bold">394</h3>
+            <h3 class="text-3xl font-bold">{{ number_format($completedRequests) }}</h3>
         </div>
     </div>
 

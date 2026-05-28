@@ -78,4 +78,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(WasteRequest::class, 'assigned_to');
     }
+
+    /**
+     * Get the complaints created by the user.
+     */
+    public function complaints()
+    {
+        return $this->hasMany(Complaint::class);
+    }
 }

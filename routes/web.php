@@ -38,6 +38,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'store' => 'user.requests.store',
         'destroy' => 'user.requests.destroy',
     ]);
+    Route::resource('/user/complaints', \App\Http\Controllers\ComplaintController::class)->names([
+        'index' => 'user.complaints.index',
+        'create' => 'user.complaints.create',
+        'store' => 'user.complaints.store',
+        'show' => 'user.complaints.show',
+        'edit' => 'user.complaints.edit',
+        'update' => 'user.complaints.update',
+        'destroy' => 'user.complaints.destroy',
+    ]);
 });
 
 Route::middleware('auth')->group(function () {

@@ -16,6 +16,10 @@
             <i class="fas fa-history"></i>
             <span class="font-medium">My Requests</span>
         </a>
+        <a href="{{ route('user.complaints.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-gray-400 hover:text-white">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span class="font-medium">Complaints</span>
+        </a>
     @endsection
 
 @section('content')
@@ -48,7 +52,7 @@
 
                 <div class="flex justify-between items-center pt-4 border-t border-white/5">
                     <span class="text-[10px] text-gray-600 uppercase">{{ $request->created_at->format('d M Y') }}</span>
-                    <form action="{{ route('user.requests.destroy', $request) }}" method="POST" onsubmit="return confirm('Delete this request?')">
+                    <form action="{{ route('user.requests.destroy', $request) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this request?')">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="text-gray-600 hover:text-red-500 transition-colors">
@@ -86,6 +90,5 @@
         }
 
         document.addEventListener('DOMContentLoaded', refreshStatuses);
-    </script>
     </script>
 @endsection

@@ -26,7 +26,7 @@
                 <i class="fas fa-briefcase text-xl"></i>
             </div>
             <p class="text-gray-500 text-sm font-medium">Assigned Tasks</p>
-            <h3 class="text-3xl font-bold">5</h3>
+            <h3 class="text-3xl font-bold">{{ $assignedTasks }}</h3>
         </div>
 
         <div class="glass p-6 rounded-3xl border border-white/5 hover:border-green-500/30 transition-all group">
@@ -34,7 +34,7 @@
                 <i class="fas fa-check-double text-xl"></i>
             </div>
             <p class="text-gray-500 text-sm font-medium">Completed Tasks</p>
-            <h3 class="text-3xl font-bold">128</h3>
+            <h3 class="text-3xl font-bold">{{ $completedTasks }}</h3>
         </div>
     </div>
 
@@ -49,25 +49,32 @@
                     <tr>
                         <th class="px-6 py-4 font-medium">Location</th>
                         <th class="px-6 py-4 font-medium">Type</th>
-                        <th class="px-6 py-4 font-medium">Priority</th>
+                        <th class="px-6 py-4 font-medium">Request</th>
                         <th class="px-6 py-4 font-medium text-right">Action</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/5">
-                    @foreach([['Sector 4', 'Organic', 'High'], ['Main Street', 'Plastic', 'Medium'], ['North Park', 'Industrial', 'Low']] as $task)
+                    @forelse($todayTasks as $task)
                     <tr class="hover:bg-white/5 transition-colors">
-                        <td class="px-6 py-4 text-sm">{{ $task[0] }}</td>
+                        <td class="px-6 py-4 text-sm">{{ $task->address }}</td>
                         <td class="px-6 py-4">
-                            <span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">{{ $task[1] }}</span>
+                            <span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold capitalize">{{ $task->waste_type }}</span>
                         </td>
-                        <td class="px-6 py-4">
-                            <span class="text-sm {{ $task[2] == 'High' ? 'text-red-400' : ($task[2] == 'Medium' ? 'text-yellow-400' : 'text-green-400') }} font-medium">{{ $task[2] }}</span>
+                        <td class="px-6 py-4 text-sm">
+                            {{ $task->title }}
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <button class="text-primary hover:underline text-sm font-medium">Mark Complete</button>
+                            <form action="{{ route('worker.tasks.complete', $task) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="text-primary hover:underline text-sm font-medium">Mark Complete</button>
+                            </form>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="4" class="px-6 py-8 text-center text-gray-500 text-sm">No active assigned tasks.</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

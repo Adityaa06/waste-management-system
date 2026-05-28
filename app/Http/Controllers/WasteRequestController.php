@@ -63,17 +63,17 @@ class WasteRequestController extends Controller
     /**
      * Remove the specified waste request from storage.
      */
-    public function destroy(WasteRequest $wasteRequest)
+    public function destroy(WasteRequest $request)
     {
-        if ($wasteRequest->user_id !== Auth::id()) {
+        if ($request->user_id !== Auth::id()) {
             abort(403);
         }
 
-        if ($wasteRequest->image) {
-            Storage::disk('public')->delete($wasteRequest->image);
+        if ($request->image) {
+            Storage::disk('public')->delete($request->image);
         }
 
-        $wasteRequest->delete();
+        $request->delete();
 
         return redirect()->back()->with('success', 'Request deleted successfully.');
     }
